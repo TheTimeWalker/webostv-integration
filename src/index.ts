@@ -76,14 +76,6 @@ uc.on(EVENTS.SETUP_DRIVER, async (wsHandle, setupData) => {
   console.log("Setting up driver. Setup data: " + JSON.stringify(setupData));
   await uc.acknowledgeCommand(wsHandle);
   await uc.driverSetupProgress(wsHandle);
-  console.log("Requesting user confirmation to finish setup...");
-  await uc.requestDriverSetupUserConfirmation(wsHandle, "Please click next to continue driver setup");
-});
-
-uc.on(EVENTS.SETUP_DRIVER_USER_CONFIRMATION, async (wsHandle) => {
-  console.log("Received user confirmation for driver setup: sending OK");
-  await uc.acknowledgeCommand(wsHandle);
-  await uc.driverSetupProgress(wsHandle);
   await uc.requestDriverSetupUserInput(wsHandle, "TV Network Settings", [
     { field: { text: { value: "192.168.100.30" } }, id: "address", label: { en: "Hostname or IP address" } },
     { field: { text: { value: "" } }, id: "mac", label: { en: "MAC Address" } }
