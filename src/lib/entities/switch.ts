@@ -1,13 +1,11 @@
-"use strict";
-
-const Entity = require("./entity");
+import Entity from "./entity";
 
 /**
  * Switch entity states.
  *
  * @type {{UNAVAILABLE: string, UNKNOWN: string, OFF: string, ON: string}}
  */
-const STATES = {
+export const STATES = {
   UNAVAILABLE: "UNAVAILABLE",
   UNKNOWN: "UNKNOWN",
   ON: "ON",
@@ -19,7 +17,7 @@ const STATES = {
  *
  * @type {{TOGGLE: string, ON_OFF: string}}
  */
-const FEATURES = {
+export const FEATURES = {
   ON_OFF: "on_off",
   TOGGLE: "toggle"
 };
@@ -29,7 +27,7 @@ const FEATURES = {
  *
  * @type {{STATE: string}}
  */
-const ATTRIBUTES = {
+export const ATTRIBUTES = {
   STATE: "state"
 };
 
@@ -38,7 +36,7 @@ const ATTRIBUTES = {
  *
  * @type {{TOGGLE: string, OFF: string, ON: string}}
  */
-const COMMANDS = {
+export const COMMANDS = {
   ON: "on",
   OFF: "off",
   TOGGLE: "toggle"
@@ -49,7 +47,7 @@ const COMMANDS = {
  *
  * @type {{SWITCH: string, OUTLET: string}}
  */
-const DEVICECLASSES = {
+export const DEVICECLASSES = {
   OUTLET: "outlet",
   SWITCH: "switch"
 };
@@ -59,13 +57,13 @@ const DEVICECLASSES = {
  *
  * @type {{READABLE: string}}
  */
-const OPTIONS = { READABLE: "readable" };
+export const OPTIONS = { READABLE: "readable" };
 
 /**
  * See {@link https://github.com/unfoldedcircle/core-api/blob/main/doc/entities/entity_switch.md switch entity documentation}
  * for more information.
  */
-class Switch extends Entity {
+export default class Switch extends Entity {
   /**
    * Constructs a new switch entity.
    *
@@ -83,11 +81,3 @@ class Switch extends Entity {
     console.debug(`Switch entity created with id: ${this.id}`);
   }
 }
-
-module.exports = Switch;
-module.exports.STATES = STATES;
-module.exports.FEATURES = FEATURES;
-module.exports.ATTRIBUTES = ATTRIBUTES;
-module.exports.COMMANDS = COMMANDS;
-module.exports.DEVICECLASSES = DEVICECLASSES;
-module.exports.OPTIONS = OPTIONS;

@@ -1,13 +1,11 @@
-"use strict";
-
-const Entity = require("./entity");
+import Entity from "./entity";
 
 /**
  * Light entity states.
  *
  * @type {{UNAVAILABLE: string, UNKNOWN: string, OFF: string, ON: string}}
  */
-const STATES = {
+export const STATES = {
   UNAVAILABLE: "UNAVAILABLE",
   UNKNOWN: "UNKNOWN",
   ON: "ON",
@@ -19,7 +17,7 @@ const STATES = {
  *
  * @type {{TOGGLE: string, COLOR: string, ON_OFF: string, DIM: string, COLOR_TEMPERATURE: string}}
  */
-const FEATURES = {
+export const FEATURES = {
   ON_OFF: "on_off",
   TOGGLE: "toggle",
   DIM: "dim",
@@ -32,7 +30,7 @@ const FEATURES = {
  *
  * @type {{STATE: string, HUE: string, COLOR_TEMPERATURE: string, BRIGHTNESS: string, SATURATION: string}}
  */
-const ATTRIBUTES = {
+export const ATTRIBUTES = {
   STATE: "state",
   HUE: "hue",
   SATURATION: "saturation",
@@ -45,7 +43,7 @@ const ATTRIBUTES = {
  *
  * @type {{TOGGLE: string, OFF: string, ON: string}}
  */
-const COMMANDS = {
+export const COMMANDS = {
   ON: "on",
   OFF: "off",
   TOGGLE: "toggle"
@@ -55,20 +53,20 @@ const COMMANDS = {
  * Light entity device classes.
  * @type {{}}
  */
-const DEVICECLASSES = {};
+export const DEVICECLASSES = {};
 
 /**
  * Light entity options.
  *
  * @type {{COLOR_TEMPERATURE_STEPS: string}}
  */
-const OPTIONS = { COLOR_TEMPERATURE_STEPS: "color_temperature_steps" };
+export const OPTIONS = { COLOR_TEMPERATURE_STEPS: "color_temperature_steps" };
 
 /**
  * See {@link https://github.com/unfoldedcircle/core-api/blob/main/doc/entities/entity_light.md light entity documentation}
  * for more information.
  */
-class Light extends Entity {
+export default class Light extends Entity {
   /**
    * Constructs a new light entity.
    *
@@ -86,11 +84,3 @@ class Light extends Entity {
     console.debug(`Light entity created with id: ${this.id}`);
   }
 }
-
-module.exports = Light;
-module.exports.STATES = STATES;
-module.exports.FEATURES = FEATURES;
-module.exports.ATTRIBUTES = ATTRIBUTES;
-module.exports.COMMANDS = COMMANDS;
-module.exports.DEVICECLASSES = DEVICECLASSES;
-module.exports.OPTIONS = OPTIONS;

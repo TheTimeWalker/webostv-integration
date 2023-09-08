@@ -1,13 +1,11 @@
-"use strict";
-
-const Entity = require("./entity");
+import Entity from "./entity";
 
 /**
  * Climate entity states.
  *
  * @type {{HEAT: string, AUTO: string, FAN: string, COOL: string, UNAVAILABLE: string, UNKNOWN: string, OFF: string, HEAT_COOL: string}}
  */
-const STATES = {
+export const STATES = {
   UNAVAILABLE: "UNAVAILABLE",
   UNKNOWN: "UNKNOWN",
   OFF: "OFF",
@@ -23,7 +21,7 @@ const STATES = {
  *
  * @type {{HEAT: string, FAN: string, TARGET_TEMPERATURE: string, CURRENT_TEMPERATURE: string, COOL: string, ON_OFF: string, TARGET_TEMPERATURE_RANGE: string}}
  */
-const FEATURES = {
+export const FEATURES = {
   ON_OFF: "on_off",
   HEAT: "heat",
   COOL: "cool",
@@ -38,7 +36,7 @@ const FEATURES = {
  *
  * @type {{TARGET_TEMPERATURE: string, CURRENT_TEMPERATURE: string, STATE: string, TARGET_TEMPERATURE_HIGH: string, TARGET_TEMPERATURE_LOW: string, FAN_MODE: string}}
  */
-const ATTRIBUTES = {
+export const ATTRIBUTES = {
   STATE: "state",
   CURRENT_TEMPERATURE: "current_temperature",
   TARGET_TEMPERATURE: "target_temperature",
@@ -52,7 +50,7 @@ const ATTRIBUTES = {
  *
  * @type {{TARGET_TEMPERATURE: string, OFF: string, HVAC_MODE: string, TARGET_TEMPERATURE_RANGE: string, ON: string, FAN_MODE: string}}
  */
-const COMMANDS = {
+export const COMMANDS = {
   ON: "on",
   OFF: "off",
   HVAC_MODE: "hvac_mode",
@@ -66,14 +64,14 @@ const COMMANDS = {
  *
  * @type {{}}
  */
-const DEVICECLASSES = {};
+export const DEVICECLASSES = {};
 
 /**
  * Climate entity options.
  *
  * @type {{MIN_TEMPERATURE: string, TARGET_TEMPERATURE_STEP: string, FAN_MODES: string, TEMPERATURE_UNIT: string, MAX_TEMPERATURE: string}}
  */
-const OPTIONS = {
+export const OPTIONS = {
   TEMPERATURE_UNIT: "temperature_unit",
   TARGET_TEMPERATURE_STEP: "target_temperature_step",
   MAX_TEMPERATURE: "max_temperature",
@@ -85,7 +83,7 @@ const OPTIONS = {
  * See {@link https://github.com/unfoldedcircle/core-api/blob/main/doc/entities/entity_climate.md climate entity documentation}
  * for more information.
  */
-class Climate extends Entity {
+export default class Climate extends Entity {
   /**
    * Constructs a new climate entity.
    *
@@ -103,11 +101,3 @@ class Climate extends Entity {
     console.debug(`Climate entity created with id: ${this.id}`);
   }
 }
-
-module.exports = Climate;
-module.exports.STATES = STATES;
-module.exports.FEATURES = FEATURES;
-module.exports.ATTRIBUTES = ATTRIBUTES;
-module.exports.COMMANDS = COMMANDS;
-module.exports.DEVICECLASSES = DEVICECLASSES;
-module.exports.OPTIONS = OPTIONS;

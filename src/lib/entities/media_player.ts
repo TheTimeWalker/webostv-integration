@@ -1,13 +1,12 @@
-"use strict";
-
-const Entity = require("./entity");
+// @ts-nocheck
+import Entity, { TYPES } from "./entity";
 
 /**
  * Media-player entity states.
  *
  * @type {{PAUSED: string, UNAVAILABLE: string, UNKNOWN: string, OFF: string, PLAYING: string, ON: string}}
  */
-const STATES = {
+export const STATES = {
   UNAVAILABLE: "UNAVAILABLE",
   UNKNOWN: "UNKNOWN",
   ON: "ON",
@@ -21,7 +20,7 @@ const STATES = {
  *
  * @type {{REPEAT: string, TOGGLE: string, UNMUTE: string, SHUFFLE: string, MEDIA_DURATION: string, PREVIOUS: string, MEDIA_ALBUM: string, PLAY_PAUSE: string, NEXT: string, MEDIA_TYPE: string, REWIND: string, SEEK: string, VOLUME_UP_DOWN: string, STOP: string, FAST_FORWARD: string, VOLUME: string, MEDIA_ARTIST: string, ON_OFF: string, MUTE_TOGGLE: string, MEDIA_TITLE: string, MEDIA_IMAGE_URL: string, SOUND_MODE: string, MEDIA_POSITION: string, SOURCE: string, MUTE: string}}
  */
-const FEATURES = {
+export const FEATURES = {
   ON_OFF: "on_off",
   TOGGLE: "toggle",
   VOLUME: "volume",
@@ -46,7 +45,10 @@ const FEATURES = {
   MEDIA_IMAGE_URL: "media_image_url",
   MEDIA_TYPE: "media_type",
   SOURCE: "source",
-  SOUND_MODE: "sound_mode"
+  SOUND_MODE: "sound_mode",
+  HOME: "home",
+  MENU: "menu",
+  DPAD: "dpad"
 };
 
 /**
@@ -54,7 +56,7 @@ const FEATURES = {
  *
  * @type {{REPEAT: string, SOURCE_LIST: string, VOLUME: string, SOUND_MODE_LIST: string, MEDIA_ARTIST: string, STATE: string, SHUFFLE: string, MEDIA_DURATION: string, MUTED: string, MEDIA_TITLE: string, MEDIA_IMAGE_URL: string, SOUND_MODE: string, MEDIA_POSITION: string, MEDIA_ALBUM: string, MEDIA_TYPE: string, SOURCE: string}}
  */
-const ATTRIBUTES = {
+export const ATTRIBUTES = {
   STATE: "state",
   VOLUME: "volume",
   MUTED: "muted",
@@ -78,7 +80,7 @@ const ATTRIBUTES = {
  *
  * @type {{REPEAT: string, TOGGLE: string, STOP: string, FAST_FORWARD: string, SEARCH: string, VOLUME: string, MUTE_TOGGLE: string, UNMUTE: string, SHUFFLE: string, VOLUME_DOWN: string, OFF: string, PREVIOUS: string, SOUND_MODE: string, PLAY_PAUSE: string, NEXT: string, SOURCE: string, REWIND: string, VOLUME_UP: string, MUTE: string, SEEK: string, ON: string}}
  */
-const COMMANDS = {
+export const COMMANDS = {
   ON: "on",
   OFF: "off",
   TOGGLE: "toggle",
@@ -99,7 +101,14 @@ const COMMANDS = {
   SHUFFLE: "shuffle",
   SOURCE: "source",
   SOUND_MODE: "sound_mode",
-  SEARCH: "search"
+  SEARCH: "search",
+  CURSOR_UP: "cursor_up",
+  CURSOR_DOWN: "cursor_down",
+  CURSOR_LEFT: "cursor_left",
+  CURSOR_RIGHT: "cursor_right",
+  CURSOR_ENTER: "cursor_enter",
+  MENU: "menu",
+  HOME: "home"
 };
 
 /**
@@ -107,20 +116,20 @@ const COMMANDS = {
  *
  * @type {{SPEAKER: string, RECEIVER: string}}
  */
-const DEVICECLASSES = { RECEIVER: "receiver", SPEAKER: "speaker" };
+export const DEVICECLASSES = { RECEIVER: "receiver", SPEAKER: "speaker", TV: "tv" };
 
 /**
  * Media-player entity options.
  *
  * @type {{VOLUME_STEPS: string}}
  */
-const OPTIONS = { VOLUME_STEPS: "volume_steps" };
+export const OPTIONS = { VOLUME_STEPS: "volume_steps" };
 
 /**
  * See {@link https://github.com/unfoldedcircle/core-api/blob/main/doc/entities/entity_media_player.md media-player entity documentation}
  * for more information.
  */
-class MediaPlayer extends Entity {
+export default class MediaPlayer extends Entity {
   /**
    * Constructs a new media-player entity.
    *
@@ -132,17 +141,9 @@ class MediaPlayer extends Entity {
    * @param {object} options Further options. See entity documentation.
    * @param {string} area Optional area or room.
    */
-  constructor(id, name, features, attributes, deviceClass = undefined, options = null, area = undefined) {
-    super(id, name, Entity.TYPES.MEDIA_PLAYER, features, attributes, deviceClass, options, area);
+  constructor(id, name, features, attributes: Map<any, any>, deviceClass: string, options = null, area = undefined) {
+    super(id, name, TYPES.MEDIA_PLAYER, features, attributes, deviceClass, options, area);
 
     console.debug(`MediaPlayer entity created with id: ${this.id}`);
   }
 }
-
-module.exports = MediaPlayer;
-module.exports.STATES = STATES;
-module.exports.FEATURES = FEATURES;
-module.exports.ATTRIBUTES = ATTRIBUTES;
-module.exports.COMMANDS = COMMANDS;
-module.exports.DEVICECLASSES = DEVICECLASSES;
-module.exports.OPTIONS = OPTIONS;

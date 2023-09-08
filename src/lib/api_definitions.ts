@@ -1,17 +1,11 @@
-"use strict";
-
-// TODO a proper enum is reason enough to switch to TS...
-
-const DEVICE_STATES = {
+export const DEVICE_STATES = {
   CONNECTED: "CONNECTED",
   CONNECTING: "CONNECTING",
   DISCONNECTED: "DISCONNECTED",
   ERROR: "ERROR"
 };
 
-module.exports.DEVICE_STATES = DEVICE_STATES;
-
-const STATUS_CODES = {
+export const STATUS_CODES = {
   OK: 200,
   BAD_REQUEST: 400,
   UNAUTHORIZED: 401,
@@ -20,14 +14,12 @@ const STATUS_CODES = {
   SERVICE_UNAVAILABLE: 503
 };
 
-module.exports.STATUS_CODES = STATUS_CODES;
-
 /**
  * WebSocket integration API request / response messages.
  *
  * @type {Readonly<{GET_ENTITY_STATES: string, SUBSCRIBE_EVENTS: string, GET_DEVICE_STATE: string, AUTHENTICATION: string, GET_AVAILABLE_ENTITIES: string, GET_DRIVER_VERSION: string, UNSUBSCRIBE_EVENTS: string, ENTITY_COMMAND: string, SETUP_DRIVER: string, GET_DRIVER_METADATA: string, SET_DRIVER_USER_DATA: string}>}
  */
-const MESSAGES = Object.freeze({
+export const MESSAGES = Object.freeze({
   AUTHENTICATION: "authentication",
   GET_DRIVER_VERSION: "get_driver_version",
   GET_DEVICE_STATE: "get_device_state",
@@ -41,14 +33,12 @@ const MESSAGES = Object.freeze({
   SET_DRIVER_USER_DATA: "set_driver_user_data"
 });
 
-module.exports.MESSAGES = MESSAGES;
-
 /**
  * WebSocket integration API event messages.
  *
  * @type {Readonly<{ENTER_STANDBY: string, EXIT_STANDBY: string, ABORT_DRIVER_SETUP: string, DRIVER_VERSION: string, ENTITY_STATES: string, DRIVER_METADATA: string, ENTITY_CHANGE: string, DRIVER_SETUP_CHANGE: string, AVAILABLE_ENTITIES: string, CONNECT: string, DISCONNECT: string, DEVICE_STATE: string}>}
  */
-const MSG_EVENTS = Object.freeze({
+export const MSG_EVENTS = Object.freeze({
   CONNECT: "connect",
   DISCONNECT: "disconnect",
   ENTER_STANDBY: "enter_standby",
@@ -63,14 +53,12 @@ const MSG_EVENTS = Object.freeze({
   ABORT_DRIVER_SETUP: "abort_driver_setup"
 });
 
-module.exports.MSG_EVENTS = MSG_EVENTS;
-
 /**
  * Library events.
  *
  * @type {Readonly<{SETUP_DRIVER_ABORT: symbol, ENTITY_ATTRIBUTES_UPDATED: symbol, ENTITY_COMMAND: symbol, SETUP_DRIVER: symbol, SUBSCRIBE_ENTITIES: symbol, SETUP_DRIVER_USER_DATA: symbol, CONNECT: symbol, UNSUBSCRIBE_ENTITIES: symbol, SETUP_DRIVER_USER_CONFIRMATION: symbol, DISCONNECT: symbol,  ENTER_STANDBY: symbol,  EXIT_STANDBY: symbol}>}
  */
-const EVENTS = Object.freeze({
+export const EVENTS = Object.freeze({
   ENTITY_COMMAND: Symbol("entity_command"),
   ENTITY_ATTRIBUTES_UPDATED: Symbol("entity_attributes_updated"),
   SUBSCRIBE_ENTITIES: Symbol("subscribe_entities"),
@@ -85,11 +73,7 @@ const EVENTS = Object.freeze({
   EXIT_STANDBY: Symbol("exit_standby")
 });
 
-module.exports.EVENTS = EVENTS;
-
-const EVENT_CATEGORY = Object.freeze({
+export const EVENT_CATEGORY = Object.freeze({
   DEVICE: "DEVICE",
   ENTITY: "ENTITY"
 });
-
-module.exports.EVENT_CATEGORY = EVENT_CATEGORY;

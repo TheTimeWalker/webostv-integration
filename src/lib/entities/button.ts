@@ -1,13 +1,11 @@
-"use strict";
-
-const Entity = require("./entity");
+import Entity from "./entity";
 
 /**
  * Button entity states.
  *
  * @type {{AVAILABLE: string, UNAVAILABLE: string}}
  */
-const STATES = {
+export const STATES = {
   UNAVAILABLE: "UNAVAILABLE",
   AVAILABLE: "AVAILABLE"
 };
@@ -17,7 +15,7 @@ const STATES = {
  *
  * @type {{STATE: string}}
  */
-const ATTRIBUTES = {
+export const ATTRIBUTES = {
   STATE: "state"
 };
 
@@ -26,7 +24,7 @@ const ATTRIBUTES = {
  *
  * @type {{PUSH: string}}
  */
-const COMMANDS = {
+export const COMMANDS = {
   PUSH: "push"
 };
 
@@ -34,7 +32,7 @@ const COMMANDS = {
  * See {@link https://github.com/unfoldedcircle/core-api/blob/main/doc/entities/entity_button.md button entity documentation}
  * for more information.
  */
-class Button extends Entity {
+export default class Button extends Entity {
   /**
    * Constructs a new button entity.
    *
@@ -57,8 +55,3 @@ class Button extends Entity {
     console.debug(`Button entity created with id: ${this.id}`);
   }
 }
-
-module.exports = Button;
-module.exports.STATES = STATES;
-module.exports.ATTRIBUTES = ATTRIBUTES;
-module.exports.COMMANDS = COMMANDS;

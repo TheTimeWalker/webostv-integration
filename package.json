@@ -1,35 +1,44 @@
 {
-	"name": "uc-integration-api",
-	"version": "0.0.7",
-	"description": "NodeJS wrapper for the Unfolded Circle Integration API",
+	"name": "webostv-integration",
+	"version": "1.0.0",
+	"description": "WebOS TV Integration for Unfolded Circle Remotes",
 	"main": "index.js",
 	"directories": {
 		"example": "examples",
 		"lib": "lib"
 	},
 	"dependencies": {
-		"bonjour-service": "^1.1.0",
-		"ws": "^8.8.1"
+		"bonjour-service": "^1.1.1",
+		"undici": "^5.23.0",
+		"webos-tv": "github:TheTimeWalker/webos-tv",
+		"ws": "^8.13.0"
 	},
 	"devDependencies": {
-		"eslint": "^8.35.0",
-		"eslint-config-prettier": "8.8.0",
-		"eslint-config-semistandard": "^17.0.0",
-		"eslint-config-standard": "^17.0.0",
-		"eslint-plugin-import": "^2.27.5",
-		"eslint-plugin-n": "^15.6.1",
-		"eslint-plugin-prettier": "4.2.1",
-		"eslint-plugin-promise": "^6.1.1",
-		"prettier": "^2.8.8"
+		"@tsconfig/node18": "^18.2.1",
+		"@types/node": "~18",
+		"@types/ws": "^8.5.5",
+		"@typescript-eslint/eslint-plugin": "^6.5.0",
+		"@typescript-eslint/parser": "^6.5.0",
+		"eslint": "^8.48.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-plugin-import": "^2.28.1",
+		"eslint-plugin-prettier": "^5.0.0",
+		"nodemon": "^3.0.1",
+		"prettier": "^3.0.3",
+		"ts-node": "^10.9.1",
+		"typescript": "^5.2.2"
 	},
 	"scripts": {
-		"format": "prettier --write lib examples index.js",
-		"lint": "prettier --check lib examples index.js && eslint . --ext .js,.jsx,.ts,.tsx",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "node dist/index.js",
+		"dev": "nodemon -T --esm src/index.ts",
+		"lint": "eslint . --ext .ts --ext .mts",
+		"build": "tsc -p tsconfig.json",
+		"build:watch": "tsc -w -p tsconfig.json",
+		"build:release": "npm run clean && tsc -p tsconfig.release.json"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/unfoldedcircle/integration-node-library.git"
+		"url": "git+https://github.com/TheTimeWalker/webostv-integration"
 	},
 	"keywords": [
 		"uc",
@@ -42,8 +51,12 @@
 	"author": "Unfolded Circle",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/unfoldedcircle/integration-node-library/issues"
+		"url": "https://github.com/TheTimeWalker/webostv-integration/issues"
 	},
 	"homepage": "https://unfoldedcircle.com",
-	"private": true
+	"private": true,
+	"optionalDependencies": {
+		"bufferutil": "^4.0.7",
+		"utf-8-validate": "^6.0.3"
+	}
 }

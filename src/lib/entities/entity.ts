@@ -1,11 +1,10 @@
-"use strict";
-
+// @ts-nocheck
 /**
  * Available entity types.
  *
  * @type {{COVER: string, BUTTON: string, LIGHT: string, SENSOR: string, MEDIA_PLAYER: string, SWITCH: string, CLIMATE: string}}
  */
-const TYPES = {
+export const TYPES = {
   COVER: "cover",
   BUTTON: "button",
   CLIMATE: "climate",
@@ -15,7 +14,17 @@ const TYPES = {
   SWITCH: "switch"
 };
 
-class Entity {
+export default class Entity {
+  id: string;
+  name: string | Map;
+  entity_type: string;
+  device_id: string[] | null;
+  features: Map;
+  attributes: string | null;
+  device_class: string;
+  options: object;
+  area: string;
+
   /**
    * Constructs a new entity.
    *
@@ -40,6 +49,3 @@ class Entity {
     this.area = area;
   }
 }
-
-module.exports = Entity;
-module.exports.TYPES = TYPES;

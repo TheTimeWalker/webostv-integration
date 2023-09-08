@@ -1,19 +1,10 @@
-"use strict";
+// @ts-nocheck
+import EventEmitter from "events";
+import fs from "fs";
 
-const EventEmitter = require("events");
-const fs = require("fs");
+import { EVENTS } from "../api_definitions";
 
-const Entity = require("./entity");
-const Button = require("./button");
-const Climate = require("./climate");
-const Cover = require("./cover");
-const Light = require("./light");
-const MediaPlayer = require("./media_player");
-const Sensor = require("./sensor");
-const Switch = require("./switch");
-const { EVENTS } = require("../api_definitions");
-
-class Entities extends EventEmitter {
+export default class Entities extends EventEmitter {
   #storage;
   #dataPath;
 
@@ -98,7 +89,13 @@ class Entities extends EventEmitter {
       return false;
     }
 
+    if (!this.#storage[id].attributes) {
+      this.#storage[id].attributes = {};
+    }
+
     attributes.forEach((value, key) => {
+      console.log(value, key);
+      console.log(this.#storage);
       this.#storage[id].attributes[key] = value;
     });
 
@@ -157,13 +154,3 @@ class Entities extends EventEmitter {
     }
   }
 }
-
-module.exports = Entities;
-module.exports.TYPES = Entity.TYPES;
-module.exports.Button = Button;
-module.exports.Climate = Climate;
-module.exports.Cover = Cover;
-module.exports.Light = Light;
-module.exports.MediaPlayer = MediaPlayer;
-module.exports.Sensor = Sensor;
-module.exports.Switch = Switch;

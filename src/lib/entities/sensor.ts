@@ -1,13 +1,11 @@
-"use strict";
-
-const Entity = require("./entity");
+import Entity from "./entity";
 
 /**
  * Sensor entity states.
  *
  * @type {{UNAVAILABLE: string, UNKNOWN: string, ON: string}}
  */
-const STATES = {
+export const STATES = {
   UNAVAILABLE: "UNAVAILABLE",
   UNKNOWN: "UNKNOWN",
   ON: "ON"
@@ -18,14 +16,14 @@ const STATES = {
  *
  * @type {{}}
  */
-const FEATURES = {};
+export const FEATURES = {};
 
 /**
  * Sensor entity attributes.
  *
  * @type {{UNIT: string, STATE: string, VALUE: string}}
  */
-const ATTRIBUTES = {
+export const ATTRIBUTES = {
   STATE: "state",
   VALUE: "value",
   UNIT: "unit"
@@ -36,14 +34,14 @@ const ATTRIBUTES = {
  *
  * @type {{}}
  */
-const COMMANDS = {};
+export const COMMANDS = {};
 
 /**
  * Sensor entity device classes.
  *
  * @type {{BATTERY: string, ENERGY: string, VOLTAGE: string, HUMIDITY: string, TEMPERATURE: string, CUSTOM: string, POWER: string, CURRENT: string}}
  */
-const DEVICECLASSES = {
+export const DEVICECLASSES = {
   CUSTOM: "custom",
   BATTERY: "battery",
   CURRENT: "current",
@@ -59,7 +57,7 @@ const DEVICECLASSES = {
  *
  * @type {{CUSTOM_UNIT: string, DECIMALS: string, NATIVE_UNIT: string, MAX_VALUE: string, MIN_VALUE: string}}
  */
-const OPTIONS = {
+export const OPTIONS = {
   CUSTOM_UNIT: "custom_unit",
   NATIVE_UNIT: "native_unit",
   DECIMALS: "decimals",
@@ -71,7 +69,7 @@ const OPTIONS = {
  * See {@link https://github.com/unfoldedcircle/core-api/blob/main/doc/entities/entity_sensor.md sensor entity documentation}
  * for more information.
  */
-class Sensor extends Entity {
+export default class Sensor extends Entity {
   /**
    * Constructs a new sensor entity.
    *
@@ -89,11 +87,3 @@ class Sensor extends Entity {
     console.debug(`Sensor entity created with id: ${this.id}`);
   }
 }
-
-module.exports = Sensor;
-module.exports.STATES = STATES;
-module.exports.FEATURES = FEATURES;
-module.exports.ATTRIBUTES = ATTRIBUTES;
-module.exports.COMMANDS = COMMANDS;
-module.exports.DEVICECLASSES = DEVICECLASSES;
-module.exports.OPTIONS = OPTIONS;

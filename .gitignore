@@ -105,3 +105,5 @@ dist
 lib/.DS_Store
 .DS_Store
 configured.json
+
+auth.json

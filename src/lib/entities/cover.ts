@@ -1,13 +1,11 @@
-"use strict";
-
-const Entity = require("./entity");
+import Entity from "./entity";
 
 /**
  * Cover entity states.
  *
  * @type {{CLOSING: string, CLOSED: string, OPENING: string, UNAVAILABLE: string, UNKNOWN: string, OPEN: string}}
  */
-const STATES = {
+export const STATES = {
   UNAVAILABLE: "UNAVAILABLE",
   UNKNOWN: "UNKNOWN",
   OPENING: "OPENING",
@@ -21,7 +19,7 @@ const STATES = {
  *
  * @type {{POSITION: string, STOP: string, TILT_STOP: string, TILT_POSITION: string, TILT: string, CLOSE: string, OPEN: string}}
  */
-const FEATURES = {
+export const FEATURES = {
   OPEN: "open",
   CLOSE: "close",
   STOP: "stop",
@@ -36,7 +34,7 @@ const FEATURES = {
  *
  * @type {{POSITION: string, STATE: string, TILT_POSITION: string}}
  */
-const ATTRIBUTES = {
+export const ATTRIBUTES = {
   STATE: "state",
   POSITION: "position",
   TILT_POSITION: "tilt_position"
@@ -47,7 +45,7 @@ const ATTRIBUTES = {
  *
  * @type {{POSITION: string, TILT_DOWN: string, STOP: string, TILT_STOP: string, TILT: string, CLOSE: string, TILT_UP: string, OPEN: string}}
  */
-const COMMANDS = {
+export const COMMANDS = {
   OPEN: "open",
   CLOSE: "close",
   STOP: "stop",
@@ -63,7 +61,7 @@ const COMMANDS = {
  *
  * @type {{BLIND: string, GARAGE: string, CURTAIN: string, GATE: string, SHADE: string, DOOR: string, WINDOW: string}}
  */
-const DEVICECLASSES = {
+export const DEVICECLASSES = {
   BLIND: "blind",
   CURTAIN: "curtain",
   GARAGE: "garage",
@@ -78,13 +76,13 @@ const DEVICECLASSES = {
  *
  * @type {{}}
  */
-const OPTIONS = {};
+export const OPTIONS = {};
 
 /**
  * See {@link https://github.com/unfoldedcircle/core-api/blob/main/doc/entities/entity_cover.md cover entity documentation}
  * for more information.
  */
-class Cover extends Entity {
+export default class Cover extends Entity {
   /**
    * Constructs a new cover entity.
    *
@@ -102,11 +100,3 @@ class Cover extends Entity {
     console.debug(`Cover entity created with id: ${this.id}`);
   }
 }
-
-module.exports = Cover;
-module.exports.STATES = STATES;
-module.exports.FEATURES = FEATURES;
-module.exports.ATTRIBUTES = ATTRIBUTES;
-module.exports.COMMANDS = COMMANDS;
-module.exports.DEVICECLASSES = DEVICECLASSES;
-module.exports.OPTIONS = OPTIONS;

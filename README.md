@@ -1,15 +1,13 @@
-# NodeJS API wrapper for the UC Integration API
+# WebOS TV Integration for Unfolded Circle remotes
 
-This is a NodeJS library that can be used for NodeJS based integrations. It wraps the UC Integration API.
+This integration allows the Unfolded Circle remotes to integrate with WebOS-based TVs (e.g. LG TVs) and directly control them with Websocket
 
-It's a pre-alpha release. Missing features will be added continuously.
+Note: This repo is still in beta and is not fully stable yet. It's also missing some controls and can maybe break after updates. Please keep that in mind when you're trying to run it yourself
 
-Not supported:
+## Build
 
-- secure WebSocket
+Coming soon...
 
----
+## How to use the integration
 
-### Usage
-
-Look into [examples](examples) for some pointers.
+Coming soon...
