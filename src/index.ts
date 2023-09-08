@@ -72,14 +72,54 @@ uc.on(EVENTS.UNSUBSCRIBE_ENTITIES, async (entityIds: string[]) => {
   });
 });
 
-uc.on(EVENTS.SETUP_DRIVER, async (wsHandle, setupData) => {
+uc.on(EVENTS.SETUP_DRIVER, async (wsHandle, setupData: { address: string; mac: string }) => {
   console.log("Setting up driver. Setup data: " + JSON.stringify(setupData));
   await uc.acknowledgeCommand(wsHandle);
-  await uc.driverSetupProgress(wsHandle);
-  await uc.requestDriverSetupUserInput(wsHandle, "TV Network Settings", [
-    { field: { text: { value: "192.168.100.30" } }, id: "address", label: { en: "Hostname or IP address" } },
-    { field: { text: { value: "" } }, id: "mac", label: { en: "MAC Address" } }
-  ]);
+
+  const tv = new TV(setupData.address);
+  const token = await tv.authenticate();
+  console.log("got token", token);
+  const sw = await tv.getCurrentSWInformation();
+  const volume = await tv.getVolume();
+
+  const data = JSON.stringify({
+    ip: setupData.address,
+    mac: setupData.mac,
+    token: token,
+    deviceId: sw.device_id
+  });
+  fs.writeFileSync("auth.json", data);
+
+  // implement interactive setup flow, this is just a simulated example
+  // ...
+  const webOsTvEntity = new MediaPlayer(
+    sw.device_id,
+    sw.product_name,
+    [
+      FEATURES.ON_OFF,
+      FEATURES.VOLUME_UP_DOWN,
+      FEATURES.MUTE,
+      FEATURES.UNMUTE,
+      FEATURES.MENU,
+      FEATURES.HOME,
+      FEATURES.DPAD,
+      FEATURES.SOURCE
+    ],
+    // @ts-ignore
+    new Map([
+      [ATTRIBUTES.STATE, STATES.ON],
+      [ATTRIBUTES.VOLUME, volume.volume || 0],
+      [ATTRIBUTES.MUTED, volume.muted]
+    ]),
+    DEVICECLASSES.TV
+  );
+
+  // add entity as available
+  // this is important, so the core knows what entities are available
+  uc.availableEntities.addEntity(webOsTvEntity);
+
+  console.log("Driver setup completed!");
+  await uc.driverSetupComplete(wsHandle);
 });
 
 uc.on(EVENTS.SETUP_DRIVER_USER_DATA, async (wsHandle, userData: { address: string; mac: string }) => {

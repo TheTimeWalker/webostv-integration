@@ -1,8 +1,8 @@
 {
   "driver_id": "uc_webostv",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "min_core_api": "1.0.0",
-  "name": { "en": "WebOS TV"},
+  "name": { "en": "WebOS TV" },
   "icon": "tv",
   "description": { "en": "Connect with any WebOS based TVs like LG TVs" },
   "port": "9988",
@@ -19,14 +19,23 @@
     "settings": [
       {
         "id": "info",
+        "label": {
+          "en": "WebOS TV (LG TV) Integration"
+        },
         "field": {
           "label": {
             "value": {
-              "en": "This integration is not complete and can be unstable. You need to also have the MAC address to turn on your TV."
+              "en": "This integration is not complete and can be unstable. The MAC address is needed to turn on your TV."
             }
           }
         }
-      }
+      },
+      {
+        "field": { "text": { "value": "192.168.100.30" } },
+        "id": "address",
+        "label": { "en": "Hostname or IP address" }
+      },
+      { "field": { "text": { "value": "" } }, "id": "mac", "label": { "en": "MAC Address" } }
     ]
   },
   "release_date": "2023-09-08"
