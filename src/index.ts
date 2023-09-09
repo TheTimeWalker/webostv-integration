@@ -187,74 +187,67 @@ uc.on(EVENTS.ENTITY_COMMAND, async (wsHandle, entityId, entityType, cmdId, param
     return;
   }
 
-  // this is just a **very simple and naive** command handler.
-  // A real driver should also check the entityType since a command name is not unique among entity types.
-  switch (cmdId) {
-    case COMMANDS.ON:
-      // params is optional! Use a default if not provided.
-      try {
+  try {
+    switch (cmdId) {
+      case COMMANDS.ON:
         await TV.turnOn(auth.ip, auth.mac);
         checkDelay = 1000;
         uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.STATE, STATES.ON]]));
-      } catch (err) {
-        console.log(err);
-        await uc.acknowledgeCommand(wsHandle, 500);
+        break;
+      case COMMANDS.OFF:
+        await tv.turnOff();
+        checkDelay = 10000;
+        setTimeout(() => connectTv(), checkDelay);
+        uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.STATE, STATES.OFF]]));
+        break;
+      case COMMANDS.MUTE_TOGGLE: {
+        const muted = await tv.toggleMute();
+        uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.MUTED, muted]]));
+        break;
       }
-      break;
-    case COMMANDS.OFF:
-      await tv.turnOff();
-      checkDelay = 10000;
-      setTimeout(() => connectTv(), checkDelay);
-      uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.STATE, STATES.OFF]]));
-      break;
-    case COMMANDS.MUTE_TOGGLE: {
-      const muted = await tv.toggleMute();
-      uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.MUTED, muted]]));
-      break;
+      case COMMANDS.MUTE:
+        await tv.mute();
+        uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.MUTED, true]]));
+        break;
+      case COMMANDS.UNMUTE:
+        await tv.unmute();
+        uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.MUTED, false]]));
+        break;
+      case COMMANDS.CURSOR_LEFT:
+        tvPointer.press("LEFT");
+        break;
+      case COMMANDS.CURSOR_UP:
+        tvPointer.press("UP");
+        break;
+      case COMMANDS.CURSOR_RIGHT:
+        tvPointer.press("RIGHT");
+        break;
+      case COMMANDS.CURSOR_DOWN:
+        tvPointer.press("DOWN");
+        break;
+      case COMMANDS.CURSOR_ENTER:
+        tvPointer.press("ENTER");
+        break;
+      case COMMANDS.VOLUME_UP: {
+        const volume = await tv.volumeUp();
+        uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.VOLUME, volume.volume]]));
+        break;
+      }
+      case COMMANDS.VOLUME_DOWN: {
+        const volume = await tv.volumeDown();
+        uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.VOLUME, volume.volume]]));
+        break;
+      }
+      case COMMANDS.MENU:
+        tvPointer.press("MENU");
+        break;
+      default:
+        await uc.acknowledgeCommand(wsHandle, 404);
+        return;
     }
-    case COMMANDS.MUTE:
-      await tv.mute();
-      uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.MUTED, true]]));
-      break;
-    case COMMANDS.UNMUTE:
-      await tv.unmute();
-      uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.MUTED, false]]));
-      break;
-    case COMMANDS.CURSOR_LEFT:
-      tvPointer.press("LEFT");
-      break;
-    case COMMANDS.CURSOR_UP:
-      tvPointer.press("UP");
-      break;
-    case COMMANDS.CURSOR_RIGHT:
-      tvPointer.press("RIGHT");
-      break;
-    case COMMANDS.CURSOR_DOWN:
-      tvPointer.press("DOWN");
-      break;
-    case COMMANDS.CURSOR_ENTER:
-      tvPointer.press("ENTER");
-      break;
-    case COMMANDS.VOLUME_UP: {
-      const volume = await tv.volumeUp();
-      uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.VOLUME, volume.volume]]));
-      break;
-    }
-    case COMMANDS.VOLUME_DOWN: {
-      const volume = await tv.volumeDown();
-      uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.VOLUME, volume.volume]]));
-      break;
-    }
-    case COMMANDS.MENU:
-      tvPointer.press("MENU");
-      break;
-    default:
-      await uc.acknowledgeCommand(wsHandle, 404);
-      return;
+    await uc.acknowledgeCommand(wsHandle);
+  } catch (err) {
+    console.log(err);
+    await uc.acknowledgeCommand(wsHandle, 500);
   }
-
-  // you need to acknowledge if the command was successfully executed
-  // we just say OK there, but you need to add logic if the command is
-  // really successfully executed on the device
-  await uc.acknowledgeCommand(wsHandle);
 });
