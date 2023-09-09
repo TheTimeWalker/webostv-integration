@@ -5,6 +5,7 @@ import MediaPlayer, { ATTRIBUTES, COMMANDS, DEVICECLASSES, FEATURES, STATES } fr
 import fs from "fs";
 import { PointerInputSocket } from "webos-tv/lib/sockets";
 
+let checkDelay = 10000;
 let tv: TV;
 let tvPointer: PointerInputSocket;
 let auth = { ip: "", mac: "", token: "", deviceId: "" };
@@ -27,7 +28,7 @@ const connectTv = async () => {
     tvPointer = await tv.getPointerInputSocket();
   } catch (err) {
     console.log(err);
-    setTimeout(() => connectTv(), 10000);
+    setTimeout(() => connectTv(), checkDelay);
     uc.configuredEntities.updateEntityAttributes(auth.deviceId, new Map([[ATTRIBUTES.STATE, STATES.OFF]]));
   }
 };
@@ -193,9 +194,7 @@ uc.on(EVENTS.ENTITY_COMMAND, async (wsHandle, entityId, entityType, cmdId, param
       // params is optional! Use a default if not provided.
       try {
         await TV.turnOn(auth.ip, auth.mac);
-        await new Promise((resolve) => setTimeout(resolve, 10000));
-        console.log("connecting to tv");
-        await tv.authenticate(auth.token);
+        checkDelay = 1000;
         uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.STATE, STATES.ON]]));
       } catch (err) {
         console.log(err);
@@ -204,6 +203,8 @@ uc.on(EVENTS.ENTITY_COMMAND, async (wsHandle, entityId, entityType, cmdId, param
       break;
     case COMMANDS.OFF:
       await tv.turnOff();
+      checkDelay = 10000;
+      setTimeout(() => connectTv(), checkDelay);
       uc.configuredEntities.updateEntityAttributes(entity.id, new Map([[ATTRIBUTES.STATE, STATES.OFF]]));
       break;
     case COMMANDS.MUTE_TOGGLE: {
