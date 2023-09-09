@@ -54,20 +54,12 @@ uc.on(EVENTS.DISCONNECT, async () => {
 });
 
 uc.on(EVENTS.SUBSCRIBE_ENTITIES, async (entityIds: string[]) => {
-  // the integration will configure entities and subscribe for entity update events
-  // the UC library automatically adds the subscribed entities
-  // from available to configured
-  // you can act on this event if you need for your device handling
   entityIds.forEach((entityId) => {
     console.log(`Subscribed entity: ${entityId}`);
   });
 });
 
 uc.on(EVENTS.UNSUBSCRIBE_ENTITIES, async (entityIds: string[]) => {
-  // when the integration unsubscribed from certain entity updates,
-  // the UC library automatically remove the unsubscribed entities
-  // from configured
-  // you can act on this event if you need for your device handling
   entityIds.forEach((entityId) => {
     console.log(`Unsubscribed entity: ${entityId}`);
   });
@@ -91,8 +83,6 @@ uc.on(EVENTS.SETUP_DRIVER, async (wsHandle, setupData: { address: string; mac: s
   });
   fs.writeFileSync("auth.json", data);
 
-  // implement interactive setup flow, this is just a simulated example
-  // ...
   const webOsTvEntity = new MediaPlayer(
     sw.device_id,
     sw.product_name,
@@ -123,59 +113,6 @@ uc.on(EVENTS.SETUP_DRIVER, async (wsHandle, setupData: { address: string; mac: s
   await uc.driverSetupComplete(wsHandle);
 });
 
-uc.on(EVENTS.SETUP_DRIVER_USER_DATA, async (wsHandle, userData: { address: string; mac: string }) => {
-  console.log("Received user input for driver setup: " + JSON.stringify(userData));
-  await uc.acknowledgeCommand(wsHandle);
-
-  const tv = new TV(userData.address);
-  const token = await tv.authenticate();
-  console.log("got token", token);
-  const sw = await tv.getCurrentSWInformation();
-  const volume = await tv.getVolume();
-
-  const data = JSON.stringify({
-    ip: userData.address,
-    mac: userData.mac,
-    token: token,
-    deviceId: sw.device_id
-  });
-  fs.writeFileSync("auth.json", data);
-
-  // implement interactive setup flow, this is just a simulated example
-  // ...
-  const webOsTvEntity = new MediaPlayer(
-    sw.device_id,
-    sw.product_name,
-    [
-      FEATURES.ON_OFF,
-      FEATURES.VOLUME_UP_DOWN,
-      FEATURES.MUTE,
-      FEATURES.UNMUTE,
-      FEATURES.MENU,
-      FEATURES.HOME,
-      FEATURES.DPAD,
-      FEATURES.SOURCE
-    ],
-    // @ts-ignore
-    new Map([
-      [ATTRIBUTES.STATE, STATES.ON],
-      [ATTRIBUTES.VOLUME, volume.volume || 0],
-      [ATTRIBUTES.MUTED, volume.muted]
-    ]),
-    DEVICECLASSES.TV
-  );
-
-  // add entity as available
-  // this is important, so the core knows what entities are available
-  uc.availableEntities.addEntity(webOsTvEntity);
-
-  console.log("Driver setup completed!");
-  await uc.driverSetupComplete(wsHandle);
-});
-
-// when a command request arrives from the core, handle the command
-// in this example we just update the entity, but in reality, you'd turn on the light with your integration
-// and handle the events separately for updating the configured entities
 uc.on(EVENTS.ENTITY_COMMAND, async (wsHandle, entityId, entityType, cmdId, params) => {
   console.log(`ENTITY COMMAND: ${entityId} ${entityType} ${cmdId} ${params ? JSON.stringify(params) : ""}`);
 
